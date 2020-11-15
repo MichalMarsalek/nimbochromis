@@ -146,22 +146,37 @@ func eval_pawns*(board:Board, color:Color): int {.inline.} =
     ## Calculates the evaluation of pawns. This piece type is special,
     ## since we consider the pawn structure too.
     ## TODO: give bonus to pawn chains.
+    ## TODO: give bonus to king shelter (maybe in king func)
     var pawnsLeft = board.colors[color] & board.pieces[PAWN]
     var occColumns: array[8, bool]
     FOR_SQ_IN pawnsLeft:
         let column = sq mod 8
         result += PIECE_SQUARE_TABLE[0][color][PAWN][sq]
         if occColumns[column]:
-            result -= 50 #doubled pawns = bad
+            result -= 40 #doubled pawns = bad
         occColumns[column] = true
+
+func eval_king*(board:Board, phase: int, color:Color): int {.inline.} =
+    ## Calculates the evaluation of king.
+    ## TODO penalty for destroying castling rights?
+    let myKing =  board.pieces[KING] & board.colors[color]
+    let myRooks = board.pieces[ROOK] & board.colors[color]
+    
+    if color == WHITE:
+        if ((myKing & (F1|G1) and myRooks & (G1|H1)) | (myKing & (B1|C1) and myRooks & (A1|B1))) != 0:
+            result -= 120
+    else:
+        if ((myKing & (F8|G8) and myRooks & (G8|H8)) | (myKing & (B8|C8) and myRooks & (A8|B8))) != 0:
+            result -= 120
+    result += PIECE_SQUARE_TABLE[phase][color][KING][myKing.countTrailingZeroBits]    
 
 func eval_mg*(board: Board): int {.inline.} = 
     ## Evaluate the aspects that depend on gameProgress, as if it was middlegame.
-    return eval_piece(board, 0, WHITE, KING)   - eval_piece(board, 0, BLACK, KING)
+    return eval_king(board, 0, WHITE) - eval_king(board, 0, BLACK)
 
 func eval_eg*(board: Board): int {.inline.} =
     ## Evaluate the aspects that depend on gameProgress, as if it was endgame.
-    return eval_piece(board, 1, WHITE, KING)   - eval_piece(board, 1, BLACK, KING)
+    return eval_king(board, 1, WHITE) - eval_king(board, 1, BLACK)
 
 func eval_unif*(board: Board): int {.inline.} =
     ## Evaluates the aspects that don't depend on game progress.
@@ -170,6 +185,13 @@ func eval_unif*(board: Board): int {.inline.} =
     eval_piece(board, 1, WHITE, BISHOP) - eval_piece(board, 1, BLACK, BISHOP) + 
     eval_piece(board, 1, WHITE, ROOK)   - eval_piece(board, 1, BLACK, ROOK) +
     eval_piece(board, 1, WHITE, QUEEN)  - eval_piece(board, 1, BLACK, QUEEN)
+
+func count_material*(board: Board): int =
+    ## Counts material for the purpose of game phase in time management.
+    result += popcount(board.pieces[PAWN]) mod 2
+    result += popcount(board.pieces[KNIGHT] | board.pieces[BISHOP]) * 3
+    result += popcount(board.pieces[ROOK]) * 5
+    result += popcount(board.pieces[QUEEN]) * 15
 
 proc eval*(board: Board, history: array[512, Board], ply: int, depth:int): int = 
     ## Evaluates the positions including cecking for draws by stalemate and 3fold repetition.

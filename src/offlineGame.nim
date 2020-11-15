@@ -49,6 +49,21 @@ func FEN*(game: Game): string =
     ## Generates a FEN for the game.
     game.position.FEN.replace("?", $(game.ply div 2 + 1))
 
+proc advance*(game: var Game, move:Move) =
+    ## Advances 1 ply forward.
+    if move.piece == UNDO_MOVE:
+        game.ply -= 2
+    else:        
+        game.historyMoves[game.ply] = move
+        game.history[game.ply+1] = game.position.make(move)
+        game.ply += 1
+        game.finished = game.position.isMate    
+
+proc getComputerMove*(game: Game): Move =
+    ## Returns the best computer move
+    game.position.bestMoveTime(game.history, game.ply, game.computerTime)
+    
+
 proc advance*(game: var Game) =
     ## Advances 1 ply forward. If active player is human it reads a move from stdin, otherwise it runs a search.
     var move:Move
@@ -62,18 +77,12 @@ proc advance*(game: var Game) =
         echo "-----------"
     else:
         var thinkingStart = cpuTime()
-        move = game.position.bestMoveTime(game.history, game.ply, game.computerTime)
+        move = getComputerMove(game)
         thinkingTotal += cpuTime() - thinkingStart
         thinkingCount += 1
         echo fmt"####### Average thinking time: {thinkingTotal/thinkingCount.float} s #######"
         echo "-------------------------------------------"
-    if move.piece == UNDO_MOVE:
-        game.ply -= 2
-    else:        
-        game.historyMoves[game.ply] = move
-        game.history[game.ply+1] = game.position.make(move)
-        game.ply += 1
-        game.finished = game.position.isMate
+    game.advance(move)
 
 proc showInBrowser*(game: Game) =
     game.position.showInBrowser(game.FEN & "<br>\n" & game.PGN)

@@ -19,6 +19,8 @@ var maxQuiesceDepth: int
 var history: array[512, Board]
 var ply: int
 
+var ECHOTHINKING = true
+
 func present(position: Board, sons: seq[(int, Move, Board)], amount: int): string =
     result = sons[0..<min(amount, sons.len)].mapIt(position.toAlgebraic(it[1]) & "(" & position.formatScore(it[0]) & ")").join(", ")
     if sons.len > amount:
@@ -150,7 +152,7 @@ proc bestMoveTime*(position: Board, hist: array[512, Board], plyy: int, thinkLim
     var pos:int
     var branchFactor:float = 1.0
     var bestScore:int
-    while depth <= 2 or thinkIter <= 1.0 or (abs(thinkLimit-think2) > abs(thinkLimit-think3)):
+    while depth <= 3 or thinkIter <= 0.05 or (abs(thinkLimit-think2) > abs(thinkLimit-think3)):
         history = hist
         ply = plyy
         think1 = think2
@@ -159,7 +161,8 @@ proc bestMoveTime*(position: Board, hist: array[512, Board], plyy: int, thinkLim
         result = rootSons[0][1]
         bestScore = rootSons[0][0]
         think2 = cpuTime() - thinkingStart
-        echo(fmt"Depth: {depth}, estimated: {think3:6.4f} s, real: {think2:6.4f} s, moves: ", position.present(rootSons, 3))
+        if ECHOTHINKING:
+            echo(fmt"Depth: {depth}, estimated: {think3:6.4f} s, real: {think2:6.4f} s, moves: ", position.present(rootSons, 3))
         think3 = think2 * branchFactor
         branchFactor = think2 / think1
         #if branchFactor < 3.5:
@@ -171,36 +174,13 @@ proc bestMoveTime*(position: Board, hist: array[512, Board], plyy: int, thinkLim
             break
     if cpuTime() - thinkingStart < 1.5:
         sleep(1500 - int((cpuTime() - thinkingStart)*1000))
-    echo("Depth: ", depth-1)
-    echo("Max depth: ", maxQuiesceDepth)
-    echo("Branching factor: ", branchFactor)
-    echo("Best move: ", position.toAlgebraic(result))
-    echo("Score: ", position.formatScore(bestScore))
-    echo("Thinking time: ", think2)
-    echo("Positions: ", pos)
-    echo("Positions/sec: ", pos.float/thinkIter)
-    echo("--------------------------------------------")
-        
-
-when isMainModule:
-    var position = FEN2board(CHESS_STARTING_FEN)
-    #[while true:
-        showInBrowser position
-        echo "FEN?"
-        var line = stdin.readLine
-        if line == "":
-            break        
-        if position.isMate:
-            echo "mate"
-            break
-        var move = position.parseMove(line)
-        echo move
-        position = position.make(move)
-        showInBrowser position
-        if position.isMate:
-            echo "mate"
-            break
-        sleep(300)
-        move = position.bestMoveDepth(1)
-        echo move
-        position = position.make(move)]#
+    if ECHOTHINKING:
+        echo("Depth: ", depth-1)
+        echo("Max depth: ", maxQuiesceDepth)
+        echo("Branching factor: ", branchFactor)
+        echo("Best move: ", position.toAlgebraic(result))
+        echo("Score: ", position.formatScore(bestScore))
+        echo("Thinking time: ", think2)
+        echo("Positions: ", pos)
+        echo("Positions/sec: ", pos.float/thinkIter)
+        echo("--------------------------------------------")

@@ -132,12 +132,16 @@ function main() {
     title="eval_piece(board: Board; phase: int; color: Color; piece: Piece): int"><wbr />eval_<wbr />piece<span class="attachedType"></span></a></li>
   <li><a class="reference" href="#eval_pawns%2CBoard%2CColor"
     title="eval_pawns(board: Board; color: Color): int"><wbr />eval_<wbr />pawns<span class="attachedType"></span></a></li>
+  <li><a class="reference" href="#eval_king%2CBoard%2Cint%2CColor"
+    title="eval_king(board: Board; phase: int; color: Color): int"><wbr />eval_<wbr />king<span class="attachedType"></span></a></li>
   <li><a class="reference" href="#eval_mg%2CBoard"
     title="eval_mg(board: Board): int"><wbr />eval_<wbr />mg<span class="attachedType"></span></a></li>
   <li><a class="reference" href="#eval_eg%2CBoard"
     title="eval_eg(board: Board): int"><wbr />eval_<wbr />eg<span class="attachedType"></span></a></li>
   <li><a class="reference" href="#eval_unif%2CBoard"
     title="eval_unif(board: Board): int"><wbr />eval_<wbr />unif<span class="attachedType"></span></a></li>
+  <li><a class="reference" href="#count_material%2CBoard"
+    title="count_material(board: Board): int"><wbr />count_<wbr />material<span class="attachedType"></span></a></li>
   <li><a class="reference" href="#evalAprox%2CBoard"
     title="evalAprox(board: Board): int"><wbr />eval<wbr />Aprox<span class="attachedType"></span></a></li>
   <li><a class="reference" href="#formatScore%2CBoard%2Cint"
@@ -220,7 +224,14 @@ Calculates the evaluation over all piece of a given color and given type.
 <dt><pre><span class="Keyword">func</span> <a href="#eval_pawns%2CBoard%2CColor"><span class="Identifier">eval_pawns</span></a><span class="Other">(</span><span class="Identifier">board</span><span class="Other">:</span> <a href="board.html#Board"><span class="Identifier">Board</span></a><span class="Other">;</span> <span class="Identifier">color</span><span class="Other">:</span> <a href="board.html#Color"><span class="Identifier">Color</span></a><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">int</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">inline</span><span class="Other">,</span> <span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
 <dd>
 
-Calculates the evaluation of pawns. This piece type is special, since we consider the pawn structure too. TODO: give bonus to pawn chains.
+Calculates the evaluation of pawns. This piece type is special, since we consider the pawn structure too. TODO: give bonus to pawn chains. TODO: give bonus to king shelter (maybe in king func)
+
+</dd>
+<a id="eval_king,Board,int,Color"></a>
+<dt><pre><span class="Keyword">func</span> <a href="#eval_king%2CBoard%2Cint%2CColor"><span class="Identifier">eval_king</span></a><span class="Other">(</span><span class="Identifier">board</span><span class="Other">:</span> <a href="board.html#Board"><span class="Identifier">Board</span></a><span class="Other">;</span> <span class="Identifier">phase</span><span class="Other">:</span> <span class="Identifier">int</span><span class="Other">;</span> <span class="Identifier">color</span><span class="Other">:</span> <a href="board.html#Color"><span class="Identifier">Color</span></a><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">int</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">inline</span><span class="Other">,</span> <span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+Calculates the evaluation of king. TODO penalty for destroying castling rights?
 
 </dd>
 <a id="eval_mg,Board"></a>
@@ -242,6 +253,13 @@ Evaluate the aspects that depend on gameProgress, as if it was endgame.
 <dd>
 
 Evaluates the aspects that don't depend on game progress.
+
+</dd>
+<a id="count_material,Board"></a>
+<dt><pre><span class="Keyword">func</span> <a href="#count_material%2CBoard"><span class="Identifier">count_material</span></a><span class="Other">(</span><span class="Identifier">board</span><span class="Other">:</span> <a href="board.html#Board"><span class="Identifier">Board</span></a><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">int</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+Counts material for the purpose of game phase in time management.
 
 </dd>
 <a id="evalAprox,Board"></a>
@@ -268,7 +286,7 @@ Formats the score for printing. Negamax type of score is converted to objective 
       <div class="twelve-columns footer">
         <span class="nim-sprite"></span>
         <br/>
-        <small style="color: var(--hint);">Made with Nim. Generated: 2020-10-24 19:34:56 UTC</small>
+        <small style="color: var(--hint);">Made with Nim. Generated: 2020-11-15 19:12:16 UTC</small>
       </div>
     </div>
   </div>

@@ -1,9 +1,10 @@
 # Nimbochromis
-
 This projects attempts to create a chess engine from scratch. My goal is to create an engine that would be able to consistently beat me.  
 In the process I'd like to learn Nim and chess programming fundamentals.
 
 Nimbochromis is a genus of African fish. Because of the tradition of naming chess engines after fishes we decided to name the engine after this fish whose name starts with "Nim".
+
+You can play nimbochromis on [lichess.org](https://lichess.org/@/nimbochromis) when it's online.
 
 ## Engine design choices
 Most of the tricks used come from [Chess programming wiki](chessprogramming.org).  
@@ -34,7 +35,8 @@ PV from the previous iteration is (TODO) used for move ordering in the next one.
 * [Piece square tables](https://www.chessprogramming.org/Piece-Square_Tables)
 
 ## User manual
-A chess game can be played by running the "chess.exe". The program will ask you to enter the starting position (empty line = normal chess starting position). Instead of a FEN you can enter a number 0..959 to play a chess 960 game or you can enter 960 to play a random 960 game. (960 is not quite finished - you won't be able to castle in thse games.) Then, you will be asked to choose who will play. Computer vs Computer, Human vs Computer and Human vs Human variants are available. Finally the thinking time for a computer player should be set.
+The main target of this project is a [lichess BOT](https://lichess.org/@/nimbochromis).
+A chess game can can also be played offline by running the "chess.exe". The program will ask you to enter the starting position (empty line = normal chess starting position). Instead of a FEN you can enter a number 0..959 to play a chess 960 game or you can enter 960 to play a random 960 game. (960 is not quite finished - you won't be able to castle in thse games.) Then, you will be asked to choose who will play. Computer vs Computer, Human vs Computer and Human vs Human variants are available. Finally the thinking time for a computer player should be set.
 After a game starts you can see the board by opening the file "board_view.html" in your web browser. To enter a move you must type it in the console in the algebraic move notation. You can also type "undo" to move 2 plies back (that is - undo the opponent's and your moves).
 
 ## Comments on the code
@@ -80,8 +82,8 @@ Code lenght is around 1500 lines (with some repetitive parts :( ), movegen being
 ## Current state of the project
 As of now the engine playes some reasonable moves, especially in the middlegame. It knows no endgame theory, except for being able to win (perhaps not in an ideal sequence) KRK ending.
 When winning, it avoids draw by repetition or stalemate, when losing it tries to draw by these means. When allowed 10 second thinking it searches the game tree 4-8 plies deep, with quiescence search extending to 25 or deeper.
-
-Next obvious step is to introduce transposition tables. Also I would like to connect to lichess API and let it play against other engines on the internet.
+There's a simple algorithm for calculating time to be spent on a move based on the position and remaining time.
+Next obvious step is to introduce transposition tables. 
 
 ## TODOs
 there's around 50 TODOs in code
@@ -107,8 +109,6 @@ there's around 50 TODOs in code
         - precalculated tables for bonuses/penalties for pawn structure around king?
 * consider avoiding recursion
 * create documentation comments for fields
-* create a BOT account on lichess.org and connect the engine to the API
-    - it might be easier to start by letting the engine play against other engines on my PC
 * pondering - while opponnent's thinking - select (by low depth search) 1 or 2 best moves for him and then start a full depth search from there. If opponent ends up playing one of these moves, we'll have the response precomputed.
 * mate finding algorithm in the endgame (dont evaluate positions, just try to force a mate)
 * consider calculating branching factor using number of searched nodes instead of time taken

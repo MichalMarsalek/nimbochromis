@@ -222,14 +222,14 @@ Move constructor.
 <dt><pre><span class="Keyword">func</span> <a href="#%24%2CMove"><span class="Identifier">`$`</span></a><span class="Other">(</span><span class="Identifier">move</span><span class="Other">:</span> <a href="movegen.html#Move"><span class="Identifier">Move</span></a><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">string</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
 <dd>
 
-Generates a simple string representation of a move. This representation is position independant. See <tt class="docutils literal"><span class="pre">toAlgebraic</span></tt> for a position dependant algebraic notation repr.
+Generates a simple UCI string representation of a move. This representation is position independant. See <tt class="docutils literal"><span class="pre">toAlgebraic</span></tt> for a position dependant algebraic notation repr.
 
 </dd>
 <a id="parseMove,Board,string"></a>
 <dt><pre><span class="Keyword">func</span> <a href="#parseMove%2CBoard%2Cstring"><span class="Identifier">parseMove</span></a><span class="Other">(</span><span class="Identifier">board</span><span class="Other">:</span> <a href="board.html#Board"><span class="Identifier">Board</span></a><span class="Other">;</span> <span class="Identifier">s</span><span class="Other">:</span> <span class="Identifier">string</span><span class="Other">)</span><span class="Other">:</span> <a href="movegen.html#Move"><span class="Identifier">Move</span></a> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
 <dd>
 
-Parses a simple (position independant) string representation of a move. See <tt class="docutils literal"><span class="pre">parseAlgebraic</span></tt> for a position dependant algebraic notation parsing.
+Parses a simple UCI (position independant) string representation of a move. See <tt class="docutils literal"><span class="pre">parseAlgebraic</span></tt> for a position dependant algebraic notation parsing.
 
 </dd>
 <a id="firstSquare,BB"></a>
@@ -347,7 +347,7 @@ Parses a move from an algebraic notation. Does so by generating Alg. notations f
       <div class="twelve-columns footer">
         <span class="nim-sprite"></span>
         <br/>
-        <small style="color: var(--hint);">Made with Nim. Generated: 2020-10-24 19:34:56 UTC</small>
+        <small style="color: var(--hint);">Made with Nim. Generated: 2020-11-15 19:12:16 UTC</small>
       </div>
     </div>
   </div>

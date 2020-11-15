@@ -1,9 +1,9 @@
 ## Playable chess.
 
 import strutils
-import game, board
+import offlineGame, board
 
-echo "Welcome to MM chess. Enter FEN of starting position or empty line for default"
+echo "Welcome to nimbochromis chess. Enter FEN of starting position or empty line for default"
 let FEN = stdin.readLine
 
 echo "Type CC, CH, HC or HH to determine if computer or human should play white/black."

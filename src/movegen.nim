@@ -29,34 +29,29 @@ func newMove*(piece: Piece, frm, to: Square, capt, promotion: Piece):Move =
     Move(piece: piece, frm: frm, to: to, capturedPiece: capt, promotion: promotion)
 
 func `$`*(move: Move): string =
-    ## Generates a simple string representation of a move. This representation is position independant.
+    ## Generates a simple UCI string representation of a move. This representation is position independant.
     ## See `toAlgebraic` for a position dependant algebraic notation repr.
-    if move.piece == UNDO_MOVE:
-        return "undoing 2 plies"
-    if move.piece == KING_ROOK:
-        if move.to > move.frm:
-            return "O-O"
-        else:
-            return "O-O-O"
-    $move.piece & $move.frm & (if move.capturedPiece == NO_PIECE: "" else: "x") & $move.to
+    result = $move.frm & $move.to
+    if move.promotion != NO_PIECE:
+        result &= PIECES_LETTERS[move.piece]
 
 func parseMove*(board:Board, s: string): Move =
-    ## Parses a simple (position independant) string representation of a move.
+    ## Parses a simple UCI (position independant) string representation of a move.
     ## See `parseAlgebraic` for a position dependant algebraic notation parsing.
     
     if s == "undo":
         return Move(piece: UNDO_MOVE)
     var act = board.activeColor
-    if s in @["00", "0-0", "OO", "O-O"]:
-        return newMove(KING_ROOK, E1 + act*56, G1 + act*56,NO_PIECE)
-    if s in @["000", "0-0-0", "OOO", "O-O-O"]:
-        return newMove(KING_ROOK, E1 + act*56, C1 + act*56,NO_PIECE)
     result = Move(frm: parseSquare(s[0..1]), to: parseSquare(s[2..3]))
     result.piece = board.determinePiece(result.frm)
+    if result.piece == KING and (result.frm - result.to == -2 or result.frm - result.to == 2):
+        result.piece = KING_ROOK
     result.capturedPiece = board.determinePiece(result.to)
     result.promotion = NO_PIECE
     if result.piece == PAWN and (result.to <= H1 or result.to >= A8):
-        result.promotion = QUEEN
+        for piece in PAWN..QUEEN:
+            if PIECES_LETTERS[piece] == s[4]:
+                result.promotion = piece
 
 const KNIGHT_MOVES:           array[64, BB]  = PRECALC_KNIGHT_MOVES()
 const KING_MOVES:             array[64, BB]  = PRECALC_KING_MOVES()

@@ -39,8 +39,8 @@ const
     UNDO_MOVE*: Piece = 7 #Undo move
     NULL_MOVE*: Piece = 8 #Null move #TODO not used anywhere
 
-const PIECES_LETTERS = "pnbrqkc"
-const PIECES_UNICODE = ["♙","♘","♗","♖","♕","♔","♟︎","♞","♝","♜","♛","♚"]
+const PIECES_LETTERS* = "pnbrqkc"
+const PIECES_UNICODE* = ["♙","♘","♗","♖","♕","♔","♟︎","♞","♝","♜","♛","♚"]
 
 const UNIVERSE*: BB = 0xffffffffffffffff ## Universe (full) bitboard
 const EMPTY*: BB = 0 ## Empty bitboard

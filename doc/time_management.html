@@ -17,7 +17,7 @@
 <link href='https://fonts.googleapis.com/css?family=Source+Code+Pro:400,500,600' rel='stylesheet' type='text/css'/>
 
 <!-- CSS -->
-<title>search</title>
+<title>time_management</title>
 <link rel="stylesheet" type="text/css" href="nimdoc.out.css">
 
 <script type="text/javascript" src="dochack.js"></script>
@@ -71,7 +71,7 @@ function main() {
 <body onload="main()">
 <div class="document" id="documentId">
   <div class="container">
-    <h1 class="title">search</h1>
+    <h1 class="title">time_management</h1>
     <div class="row">
   <div class="three columns">
   <div class="theme-switch-wrapper">
@@ -98,18 +98,10 @@ function main() {
   </div>
   <ul class="simple simple-toc" id="toc-list">
 <li>
-  <a class="reference reference-toplevel" href="#6" id="56">Imports</a>
+  <a class="reference reference-toplevel" href="#13" id="63">Funcs</a>
   <ul class="simple simple-toc-section">
-    
-  </ul>
-</li>
-<li>
-  <a class="reference reference-toplevel" href="#12" id="62">Procs</a>
-  <ul class="simple simple-toc-section">
-      <li><a class="reference" href="#rootSearch%2CBoard%2Cint"
-    title="rootSearch(position: Board; depthLeft: int)"><wbr />root<wbr />Search<span class="attachedType"></span></a></li>
-  <li><a class="reference" href="#bestMoveTime%2CBoard%2Carray%5B%2CBoard%5D%2Cint%2Cfloat"
-    title="bestMoveTime(position: Board; hist: array[512, Board]; plyy: int; thinkLimit: float): Move"><wbr />best<wbr />Move<wbr />Time<span class="attachedType"></span></a></li>
+      <li><a class="reference" href="#allocate_time%2Cint%2Cfloat%2Cfloat%2Cfloat"
+    title="allocate_time(material: int; myTime, opponentTime, increment: float): float"><wbr />allocate_<wbr />time<span class="attachedType"></span></a></li>
 
   </ul>
 </li>
@@ -120,28 +112,16 @@ function main() {
   <div class="nine columns" id="content">
   <div id="tocRoot"></div>
   
-  <p class="module-desc">This module defines the thinking process TODO - consider using a PV search instead of regular AB-negamax. TODO: transposition tables</p>
-  <div class="section" id="6">
-<h1><a class="toc-backref" href="#6">Imports</a></h1>
+  <p class="module-desc"></p>
+  <div class="section" id="13">
+<h1><a class="toc-backref" href="#13">Funcs</a></h1>
 <dl class="item">
-<a class="reference external" href="board.html">board</a>, <a class="reference external" href="movegen.html">movegen</a>, <a class="reference external" href="evaluation.html">evaluation</a>
-</dl></div>
-<div class="section" id="12">
-<h1><a class="toc-backref" href="#12">Procs</a></h1>
-<dl class="item">
-<a id="rootSearch,Board,int"></a>
-<dt><pre><span class="Keyword">proc</span> <a href="#rootSearch%2CBoard%2Cint"><span class="Identifier">rootSearch</span></a><span class="Other">(</span><span class="Identifier">position</span><span class="Other">:</span> <a href="board.html#Board"><span class="Identifier">Board</span></a><span class="Other">;</span> <span class="Identifier">depthLeft</span><span class="Other">:</span> <span class="Identifier">int</span><span class="Other">)</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
+<a id="allocate_time,int,float,float,float"></a>
+<dt><pre><span class="Keyword">func</span> <a href="#allocate_time%2Cint%2Cfloat%2Cfloat%2Cfloat"><span class="Identifier">allocate_time</span></a><span class="Other">(</span><span class="Identifier">material</span><span class="Other">:</span> <span class="Identifier">int</span><span class="Other">;</span> <span class="Identifier">myTime</span><span class="Other">,</span> <span class="Identifier">opponentTime</span><span class="Other">,</span> <span class="Identifier">increment</span><span class="Other">:</span> <span class="Identifier">float</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">float</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma">
+    <span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
 <dd>
 
-Performs the root search. Temporary: best root move from the previous iteration is searched first. TODO: order all the moves
-
-</dd>
-<a id="bestMoveTime,Board,array[,Board],int,float"></a>
-<dt><pre><span class="Keyword">proc</span> <a href="#bestMoveTime%2CBoard%2Carray%5B%2CBoard%5D%2Cint%2Cfloat"><span class="Identifier">bestMoveTime</span></a><span class="Other">(</span><span class="Identifier">position</span><span class="Other">:</span> <a href="board.html#Board"><span class="Identifier">Board</span></a><span class="Other">;</span> <span class="Identifier">hist</span><span class="Other">:</span> <span class="Identifier">array</span><span class="Other">[</span><span class="DecNumber">512</span><span class="Other">,</span> <a href="board.html#Board"><span class="Identifier">Board</span></a><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">plyy</span><span class="Other">:</span> <span class="Identifier">int</span><span class="Other">;</span> <span class="Identifier">thinkLimit</span><span class="Other">:</span> <span class="Identifier">float</span><span class="Other">)</span><span class="Other">:</span> <a href="movegen.html#Move"><span class="Identifier">Move</span></a> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma">
-    <span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">ValueError</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">TimeEffect</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
-<dd>
-
-Iterative deeepening search. Estimates how long a next iteration search would run prior to starting it. The goal is for the overall search to take around <tt class="docutils literal"><span class="pre">thinkLimit</span></tt> seconds. Experiments show that in average the search takes around 1.2 times less time than it should. To compensate for this, we scale the limit by this constant.
+Calculates ideal amount of seconds that should be spent on a move.
 
 </dd>
 
@@ -154,7 +134,7 @@ Iterative deeepening search. Estimates how long a next iteration search would ru
       <div class="twelve-columns footer">
         <span class="nim-sprite"></span>
         <br/>
-        <small style="color: var(--hint);">Made with Nim. Generated: 2020-11-15 19:12:17 UTC</small>
+        <small style="color: var(--hint);">Made with Nim. Generated: 2020-11-15 19:11:51 UTC</small>
       </div>
     </div>
   </div>

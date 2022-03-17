@@ -4,7 +4,7 @@
 ## Directions are in CCW order, starting from EAST
 ## TODO introduce some neat syntax (macro) to make code more readable
 
-import bitops, os, sequtils
+import bitops, sequtils
 import board, precalc, templates
 
 type
@@ -41,7 +41,6 @@ func parseMove*(board:Board, s: string): Move =
     
     if s == "undo":
         return Move(piece: UNDO_MOVE)
-    var act = board.activeColor
     result = Move(frm: parseSquare(s[0..1]), to: parseSquare(s[2..3]))
     result.piece = board.determinePiece(result.frm)
     if result.piece == KING and (result.frm - result.to == -2 or result.frm - result.to == 2):

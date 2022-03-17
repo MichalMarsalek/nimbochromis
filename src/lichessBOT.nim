@@ -1,6 +1,6 @@
 ## This program connects to lichess API. It accepts challenges and plays games.
 
-import httpclient, json, streams, net, strformat, asyncdispatch, strutils
+import httpclient, json, streams, strformat, strutils, net
 import engine, board, movegen, time_management, evaluation
 
 let TOKEN = readFile("token")
@@ -27,7 +27,7 @@ func getPlayer*(player: JsonNode): string =
         return player["name"].getStr
     return $player
     
-proc post*(path, multipart=nil) =
+proc post*(path: string, multipart:MultiPartData=nil) =
     ## Posts `multipart` to `path`.
     let client = newHttpClient()
     client.headers["Authorization"] = &"Bearer {TOKEN}"
@@ -64,7 +64,8 @@ proc playGame*(id: string) =
                 state = gameInfo["state"]
                 var players = [getPlayer(gameInfo["white"]), getPlayer(gameInfo["black"])]
                 let myColor = if players[BLACK] == "nimbochromis": BLACK else: WHITE
-                AI = newGame(state["moves"].getStr, myColor, gameInfo["clock"]["increment"].getFloat / 1000.0)
+                let FEN = gameInfo["initialFen"].getStr
+                AI = newGame(FEN, state["moves"].getStr, myColor, gameInfo["clock"]["increment"].getFloat / 1000.0)
                 echo("Game: " & gameInfo["id"].getStr & " White: " & getPlayer(gameInfo["white"]) & " Black: " & getPlayer(gameInfo["black"]))
                 writeInChat(id, &"Hello {players[1-myColor]}. Good luck, have fun!")
             else:
@@ -86,7 +87,7 @@ proc playGame*(id: string) =
                 sendMove(id, move)
 
 proc getCurrentGame*(): string =
-    ## Returns an ID of current game if or "" if no playing any game.
+    ## Returns an ID of current game if or "" if not playing any game.
     let client = newHttpClient()
     client.headers["Authorization"] = &"Bearer {TOKEN}"
     let req = &"https://{HOST}/api/account/playing"
@@ -96,13 +97,16 @@ proc getCurrentGame*(): string =
     return games[0]["gameId"].getStr    
 
 proc getFirstRelevantChallenge*(): string =
-    ## Returns an ID of the first challenge that should be accepted.
+    ## Returns an ID and FEN of the first challenge that should be accepted.
     ## Blocks until such challenge is presented.
     for event in getStream("/api/stream/event"):
         if event["type"].getStr == "challenge":
             let challenge = event["challenge"]
-            if challenge["variant"]["key"].getStr == "standard" and challenge["timeControl"]["type"].getStr == "clock":
-                return challenge["id"].getStr    
+            if challenge["variant"]["key"].getStr in ["standard", "fromPosition"] and challenge["timeControl"]["type"].getStr == "clock":
+                #var FEN = ""
+                #if challenge["variant"]["key"].getStr == "fromPosition":
+                #    FEN = challenge["initialFen"].getStr
+                return challenge["id"].getStr
 
 proc waitAround*() =
     ## Main loop. Starts playing any ongoing game. Accepts challenges.
@@ -116,4 +120,5 @@ proc waitAround*() =
     
         
 when isMainModule:
+    echo "waiting around"
     waitAround()

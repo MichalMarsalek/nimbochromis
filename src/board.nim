@@ -1,6 +1,6 @@
 ## This file defines, Squares, pieces, boards and related functions.
 
-import bitops, sequtils, strutils, browsers, os, random
+import bitops, sequtils, strutils, random
 randomize()
 
 # Bitboard and Square types

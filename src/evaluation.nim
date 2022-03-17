@@ -1,6 +1,6 @@
 ## Static evaluation of a position.
 
-import os, strutils, bitops
+import strutils, bitops
 import board, movegen, templates
 
 const CHECKMATE_SCORE* = 20000

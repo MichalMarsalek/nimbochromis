@@ -2,7 +2,7 @@
 ## TODO - consider using a PV search instead of regular AB-negamax.
 ## TODO: transposition tables
 
-import random, os, times, algorithm, math, sequtils, strutils, sugar, strformat
+import os, times, algorithm, sequtils, strutils, sugar, strformat
 import board, movegen, evaluation
 
 #TODO: procs or funcs?
@@ -10,8 +10,6 @@ var positions:int = 0
 
 const doQuiescence = true
 const debugSlowPlay = true
-
-var moveStack: seq[Move]
 
 var rootSons: seq[(int, Move, Board)]
 var maxQuiesceDepth: int

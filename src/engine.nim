@@ -2,7 +2,7 @@
 ## This is a slight shift of focus towards nimbochromis being a lichessBot.
 
 import board, movegen, search, meta, evaluation, time_management
-import sequtils, os, strutils, strformat, times
+import strutils
 
 var thinkingTotal = 0.0
 var thinkingCount = 0
@@ -38,10 +38,10 @@ proc advance*(game: var Game, move:string) =
     ## Advances 1 ply forward.
     game.advance(game.position.parseMove(move))
 
-proc newGame*(moves: string, myColor: Color, increment: float): Game =
+proc newGame*(FEN: string, moves: string, myColor: Color, increment: float): Game =
     ## Constructs a new Game object.
     result = Game(nimbochromisColor: myColor, increment: increment)    
-    result.history[0] = FEN2board("".cleanFEN)
+    result.history[0] = FEN2board(FEN.cleanFEN)
     if moves != "":
         for moveStr in moves.split(" "):
             var move = result.position.parseMove(moveStr)

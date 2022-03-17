@@ -1,4 +1,5 @@
 # Nimbochromis
+
 This projects attempts to create a chess engine from scratch. My goal is to create an engine that would be able to consistently beat me.  
 In the process I'd like to learn Nim and chess programming fundamentals.
 
